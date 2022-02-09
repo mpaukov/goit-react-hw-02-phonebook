@@ -17,7 +17,10 @@ class App extends Component {
   handleSubmit = e => {
     e.preventDefault();
     console.log(this.state);
-    console.log(e.target);
+    const form = e.target;
+    console.log(form[0].value);
+    console.log(form[0].name);
+    this.setState({ name: form[0].value });
   };
 
   render() {
