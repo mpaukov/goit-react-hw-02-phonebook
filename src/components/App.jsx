@@ -59,7 +59,7 @@ class App extends Component {
           <ul>
             {this.state.contacts.map(contact => {
               return (
-                <li>
+                <li key={contact.id}>
                   <p>{contact.name}</p>
                   <p>{contact.number}</p>
                 </li>
