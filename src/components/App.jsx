@@ -17,12 +17,13 @@ class App extends Component {
   handleSubmit = e => {
     e.preventDefault();
 
-    const input = e.target[0].value;
-
+    const name = e.target[0].value;
+    const phone = e.target[1].value;
     this.setState(prevState => {
       const newContact = {
         id: nanoid(),
-        name: input,
+        name: name,
+        number: phone,
       };
 
       const newContacts = [...prevState.contacts];
@@ -44,7 +45,7 @@ class App extends Component {
       >
         <form action="submit" onSubmit={this.handleSubmit}>
           <label>
-            Имя
+            Name
             <input
               type="text"
               name="name"
@@ -53,9 +54,20 @@ class App extends Component {
               required
             />
           </label>
-          <button type="submit">Сохранить</button>
+          <label>
+            Number
+            <input
+              type="tel"
+              name="number"
+              pattern="\+?\d{1,4}?[-.\s]?\(?\d{1,3}?\)?[-.\s]?\d{1,4}[-.\s]?\d{1,4}[-.\s]?\d{1,9}"
+              title="Phone number must be digits and can contain spaces, dashes, parentheses and can start with +"
+              required
+            />
+          </label>
+          <button type="submit">Add contact</button>
         </form>
         <div>
+          <h2>Contacts</h2>
           <ul>
             {this.state.contacts.map(contact => {
               return (
