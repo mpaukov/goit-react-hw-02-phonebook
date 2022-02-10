@@ -16,11 +16,19 @@ class App extends Component {
 
   handleSubmit = e => {
     e.preventDefault();
-    console.log(this.state);
-    const form = e.target;
-    console.log(form[0].value);
-    console.log(form[0].name);
-    this.setState({ name: form[0].value });
+
+    const input = e.target[0].value;
+
+    this.setState(prevState => {
+      const newContact = {
+        id: nanoid(),
+        name: input,
+      };
+
+      const newContacts = [...prevState.contacts];
+      newContacts.push(newContact);
+      return { contacts: newContacts };
+    });
   };
 
   render() {
@@ -31,6 +39,7 @@ class App extends Component {
           display: 'flex',
           justifyContent: 'center',
           alignItems: 'center',
+          flexDirection: 'column',
         }}
       >
         <form action="submit" onSubmit={this.handleSubmit}>
@@ -46,6 +55,18 @@ class App extends Component {
           </label>
           <button type="submit">Сохранить</button>
         </form>
+        <div>
+          <ul>
+            {this.state.contacts.map(contact => {
+              return (
+                <li>
+                  <p>{contact.name}</p>
+                  <p>{contact.number}</p>
+                </li>
+              );
+            })}
+          </ul>
+        </div>
       </div>
     );
   }
