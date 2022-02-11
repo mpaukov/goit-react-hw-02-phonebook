@@ -2,6 +2,7 @@ import { Component } from 'react';
 import { nanoid } from 'nanoid';
 
 import ContactForm from './ContactForm';
+import Filter from './Filter';
 
 class App extends Component {
   state = {
@@ -19,14 +20,15 @@ class App extends Component {
     this.setState({ [name]: value });
   };
 
-  filteredContacts(value) {
+  filteredContacts = value => {
+    const filterNormalize = value.toLowerCase();
+
     return this.state.contacts
       .filter(contact => {
-        const filterNormalize = value.toLowerCase();
         return contact.name.toLowerCase().includes(filterNormalize);
       })
       .sort((a, b) => a.name.localeCompare(b.name));
-  }
+  };
 
   formSubmit = ({ name, number }) => {
     const newContact = {
@@ -54,15 +56,11 @@ class App extends Component {
         <ContactForm onSubmit={this.formSubmit} />
         <div>
           <h2>Contacts</h2>
-          <label>
-            Find contact
-            <input
-              type="text"
-              name="filter"
-              value={this.state.filter}
-              onChange={this.handleFilterChange}
-            />
-          </label>
+          <Filter
+            title="Find contact by name"
+            onChange={this.handleFilterChange}
+            value={this.state.filter}
+          />
           <ul>
             {this.filteredContacts(this.state.filter).map(contact => {
               return (
