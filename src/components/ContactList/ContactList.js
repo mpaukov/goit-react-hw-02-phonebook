@@ -4,7 +4,13 @@ const ContactList = props => {
   return (
     <ul>
       {props.onFilter(props.filter).map(({ id, name, number }) => {
-        return <ContactItem contact={{ name, number }} key={id} />;
+        return (
+          <ContactItem
+            contact={{ id, name, number }}
+            key={id}
+            onDelete={props.onDelete}
+          />
+        );
       })}
     </ul>
   );

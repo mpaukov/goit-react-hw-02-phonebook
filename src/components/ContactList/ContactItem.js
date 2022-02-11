@@ -1,9 +1,12 @@
 const ContactItem = props => {
-  const { name, number } = props.contact;
+  const { id, name, number } = props.contact;
   return (
     <li>
       <p>{name}</p>
       <p>{number}</p>
+      <button type="button" id={id} onClick={props.onDelete}>
+        Delete
+      </button>
     </li>
   );
 };

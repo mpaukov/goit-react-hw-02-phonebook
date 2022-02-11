@@ -55,6 +55,15 @@ class App extends Component {
     });
   };
 
+  contactDelete = e => {
+    this.setState(prevState => {
+      const contactsAfterDelete = prevState.contacts.filter(
+        contact => contact.id !== e.target.id,
+      );
+      return { contacts: [...contactsAfterDelete] };
+    });
+  };
+
   render() {
     return (
       <div
@@ -78,6 +87,7 @@ class App extends Component {
           <ContactList
             onFilter={this.filteredContacts}
             filter={this.state.filter}
+            onDelete={this.contactDelete}
           />
         </div>
       </div>
