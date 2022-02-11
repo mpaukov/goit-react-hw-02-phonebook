@@ -3,6 +3,7 @@ import { nanoid } from 'nanoid';
 
 import ContactForm from './ContactForm';
 import Filter from './Filter';
+import ContactList from './ContactList';
 
 class App extends Component {
   state = {
@@ -61,16 +62,10 @@ class App extends Component {
             onChange={this.handleFilterChange}
             value={this.state.filter}
           />
-          <ul>
-            {this.filteredContacts(this.state.filter).map(contact => {
-              return (
-                <li key={contact.id}>
-                  <p>{contact.name}</p>
-                  <p>{contact.number}</p>
-                </li>
-              );
-            })}
-          </ul>
+          <ContactList
+            onFilter={this.filteredContacts}
+            filter={this.state.filter}
+          />
         </div>
       </div>
     );
