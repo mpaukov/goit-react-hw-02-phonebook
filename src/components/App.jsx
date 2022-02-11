@@ -14,21 +14,36 @@ class App extends Component {
     number: '',
   };
 
+  handleInputChange = e => {
+    const { name, value } = e.currentTarget;
+    this.setState({ [name]: value });
+  };
+
+  handleFilterChange = e => {
+    const { name, value } = e.currentTarget;
+    this.setState({ [name]: value });
+  };
+
+  filteredContacts(value) {
+    return this.state.contacts.filter(contact => {
+      const filterNormalize = value.toLowerCase();
+      return contact.name.toLowerCase().includes(filterNormalize);
+    });
+  }
+
   handleSubmit = e => {
     e.preventDefault();
+    const { name, number } = e.target.elements;
 
-    const name = e.target[0].value;
-    const phone = e.target[1].value;
     this.setState(prevState => {
       const newContact = {
         id: nanoid(),
-        name: name,
-        number: phone,
+        name: name.value,
+        number: number.value,
       };
-
-      const newContacts = [...prevState.contacts];
-      newContacts.push(newContact);
-      return { contacts: newContacts };
+      const listOfContacts = [...prevState.contacts];
+      listOfContacts.push(newContact);
+      return { contacts: listOfContacts, name: '', number: '' };
     });
   };
 
@@ -52,6 +67,8 @@ class App extends Component {
               pattern="^[a-zA-Zа-яА-Я]+(([' -][a-zA-Zа-яА-Я ])?[a-zA-Zа-яА-Я]*)*$"
               title="Name may contain only letters, apostrophe, dash and spaces. For example Adrian, Jacob Mercer, Charles de Batz de Castelmore d'Artagnan"
               required
+              value={this.state.name}
+              onChange={this.handleInputChange}
             />
           </label>
           <label>
@@ -62,14 +79,25 @@ class App extends Component {
               pattern="\+?\d{1,4}?[-.\s]?\(?\d{1,3}?\)?[-.\s]?\d{1,4}[-.\s]?\d{1,4}[-.\s]?\d{1,9}"
               title="Phone number must be digits and can contain spaces, dashes, parentheses and can start with +"
               required
+              value={this.state.number}
+              onChange={this.handleInputChange}
             />
           </label>
           <button type="submit">Add contact</button>
         </form>
         <div>
           <h2>Contacts</h2>
+          <label>
+            Find contact
+            <input
+              type="text"
+              name="filter"
+              value={this.state.filter}
+              onChange={this.handleFilterChange}
+            />
+          </label>
           <ul>
-            {this.state.contacts.map(contact => {
+            {this.filteredContacts(this.state.filter).map(contact => {
               return (
                 <li key={contact.id}>
                   <p>{contact.name}</p>
