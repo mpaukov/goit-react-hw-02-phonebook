@@ -32,14 +32,27 @@ class App extends Component {
   };
 
   formSubmit = ({ name, number }) => {
-    const newContact = {
-      id: nanoid(),
-      name,
-      number,
-    };
-    this.setState(prevState => ({
-      contacts: [newContact, ...prevState.contacts],
-    }));
+    this.setState(prevState => {
+      const isContact = prevState.contacts.find(
+        contact => contact.name === name,
+      );
+
+      if (isContact) {
+        alert(`${name} is already in contact`);
+        return { contacts: [...prevState.contacts] };
+      } else {
+        return {
+          contacts: [
+            {
+              id: nanoid(),
+              name,
+              number,
+            },
+            ...prevState.contacts,
+          ],
+        };
+      }
+    });
   };
 
   render() {
