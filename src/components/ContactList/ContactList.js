@@ -1,8 +1,9 @@
 import { ContactItem } from './ContactItem';
+import s from './ContactList.module.css';
 
 const ContactList = props => {
   return (
-    <ul>
+    <ul className={s.list}>
       {props.onFilter(props.filter).map(({ id, name, number }) => {
         return (
           <ContactItem

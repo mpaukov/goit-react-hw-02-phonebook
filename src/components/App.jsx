@@ -66,30 +66,21 @@ class App extends Component {
 
   render() {
     return (
-      <div
-        style={{
-          height: '100vh',
-          display: 'flex',
-          justifyContent: 'center',
-          alignItems: 'center',
-          flexDirection: 'column',
-        }}
-      >
+      <div className="container">
         <h1>Phone Book</h1>
         <ContactForm onSubmit={this.formSubmit} />
-        <div>
-          <h2>Contacts</h2>
-          <Filter
-            title="Find contact by name"
-            onChange={this.handleFilterChange}
-            value={this.state.filter}
-          />
-          <ContactList
-            onFilter={this.filteredContacts}
-            filter={this.state.filter}
-            onDelete={this.contactDelete}
-          />
-        </div>
+
+        <h2>Contacts</h2>
+        <Filter
+          title="Find contact by name"
+          onChange={this.handleFilterChange}
+          value={this.state.filter}
+        />
+        <ContactList
+          onFilter={this.filteredContacts}
+          filter={this.state.filter}
+          onDelete={this.contactDelete}
+        />
       </div>
     );
   }
