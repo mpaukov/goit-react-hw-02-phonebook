@@ -33,13 +33,12 @@ class App extends Component {
 
   formSubmit = ({ name, number }) => {
     this.setState(prevState => {
-      const isContact = prevState.contacts.find(
-        contact => contact.name === name,
-      );
+      const { contacts } = prevState;
+      const isContact = contacts.find(contact => contact.name === name);
 
       if (isContact) {
         alert(`${name} is already in contact`);
-        return { contacts: [...prevState.contacts] };
+        return contacts;
       } else {
         return {
           contacts: [
@@ -48,23 +47,23 @@ class App extends Component {
               name,
               number,
             },
-            ...prevState.contacts,
+            ...contacts,
           ],
         };
       }
     });
   };
 
-  contactDelete = e => {
+  contactDelete = id => {
     this.setState(prevState => {
-      const contactsAfterDelete = prevState.contacts.filter(
-        contact => contact.id !== e.target.id,
-      );
+      const { contacts } = prevState;
+      const contactsAfterDelete = contacts.filter(contact => contact.id !== id);
       return { contacts: [...contactsAfterDelete] };
     });
   };
 
   render() {
+    const { filter } = this.state;
     return (
       <div className="container">
         <h1>Phone Book</h1>
@@ -74,11 +73,10 @@ class App extends Component {
         <Filter
           title="Find contact by name"
           onChange={this.handleFilterChange}
-          value={this.state.filter}
+          value={filter}
         />
         <ContactList
-          onFilter={this.filteredContacts}
-          filter={this.state.filter}
+          filteredContacts={this.filteredContacts(filter)}
           onDelete={this.contactDelete}
         />
       </div>
